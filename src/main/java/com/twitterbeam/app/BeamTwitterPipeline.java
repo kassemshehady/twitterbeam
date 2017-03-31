@@ -32,6 +32,7 @@ import avro.shaded.com.google.common.collect.ImmutableMap;
  * Hello world!
  *
  */
+
 public class BeamTwitterPipeline {
 	private static final Logger LOG = LoggerFactory.getLogger(BeamTwitterPipeline.class);
 
