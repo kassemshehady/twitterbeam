@@ -1,5 +1,6 @@
 package com.twitterbeam.app;
 
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -12,15 +13,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 public class KafkaTwitterProducer {
    public static void main(String[] args) throws Exception {
-      final LinkedBlockingQueue<Status> queue = new LinkedBlockingQueue<Status>(1000);
-      
-      
-    /*  if(args.length < 5){
+      final LinkedBlockingQueue<Status> queue = new LinkedBlockingQueue<Status>(1000);            
+      if(args.length < 5){
          System.out.println(
-            "Usage: KafkaTwitterProducer <twitter-consumer-key>
-            <twitter-consumer-secret> <twitter-access-token>
-            <twitter-access-token-secret>
-            <topic-name> <twitter-search-keywords>");
+            "Usage: KafkaTwitterProducer <twitter-consumer-key> <twitter-consumer-secret> <twitter-access-token>            <twitter-access-token-secret>            <topic-name> <twitter-search-keywords>");
          return;
       }
       
@@ -30,15 +26,9 @@ public class KafkaTwitterProducer {
       String accessTokenSecret = args[3].toString();
       String topicName = args[4].toString();
       String[] arguments = args.clone();
-      String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);*/
+      String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);
 
-      String consumerKey = "DGzoa6HzYzZ8WIOqpyezCl9hW";
-      String consumerSecret = "B7ZFaFD2AsAa6ZLTXr5t6FVsdixoAp00dPiiZg8G9Pd9Ce1Sds";
-      String accessToken = "184713976-R8MrVgOo6TammQWhjF6V60HwsCMUG8bQFDexYk5F";
-      String accessTokenSecret = "0ri6LeL5kKpgfcWTXESHkDmelBiSQp1sIbf5az6EPtDmr";
-      String topicName = "beamtwitter";
-     /* String[] arguments = args.clone();*/
-      String[] keyWords = new String[]{"syria","isis"};
+  
       
       ConfigurationBuilder cb = new ConfigurationBuilder();
       cb.setDebugEnabled(true)
