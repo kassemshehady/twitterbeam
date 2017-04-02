@@ -29,9 +29,10 @@ public class KafkaTwitterProducer {
       String accessToken = args[2].toString();
       String accessTokenSecret = args[3].toString();
       String topicName = args[4].toString();
-      String[] arguments = args.clone();
-      String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);     
-      
+      //String[] arguments = args.clone();
+      //String[] keyWords = Arrays.copyOfRange(arguments, 5, arguments.length);     
+      String[] keyWords =  new String[] {"#syria"};
+
       ConfigurationBuilder cb = new ConfigurationBuilder();
       cb.setDebugEnabled(true)
          .setOAuthConsumerKey(consumerKey)
@@ -45,8 +46,8 @@ public class KafkaTwitterProducer {
          public void onStatus(Status status) {      
             queue.offer(status);
 
-            // System.out.println("@" + status.getUser().getScreenName() 
-            //   + " - " + status.getText());
+             System.out.println("@" + status.getUser().getScreenName() 
+               + " - " + status.getText());
             // System.out.println("@" + status.getUser().getScreen-Name());
 
             /*for(URLEntity urle : status.getURLEntities()) {
@@ -84,7 +85,7 @@ public class KafkaTwitterProducer {
       };
       twitterStream.addListener(listener);
       
-      FilterQuery query = new FilterQuery().track(keyWords);
+      FilterQuery query = new FilterQuery().track(keyWords).language("ar");
       twitterStream.filter(query);
 
       Thread.sleep(5000);
@@ -107,18 +108,18 @@ public class KafkaTwitterProducer {
       int i = 0;
       int j = 0;
       
-      while(i < 1000) {
+      while(i < 10000) {
          Status ret = queue.poll();
          
          if (ret == null) {
             Thread.sleep(100);
             i++;
          }else {
-           // for(HashtagEntity hashtage : ret.getHashtagEntities()) {
-               System.out.println("Kafka Twitter: " + ret.getText());
+        	 System.out.println("Kafka Twitter: " + ret.getText());
+            for(HashtagEntity hashtage : ret.getHashtagEntities()) {              
               producer.send(new ProducerRecord<String, String>(
-                  topicName, Integer.toString(j++), ret.getText()));
-            //}
+                  topicName, ret.getUser().getScreenName(),hashtage.getText() ));
+            }
          }
       }
       producer.close();
